@@ -10,7 +10,10 @@ tabuleiro = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 #Quando você chamar a função feche com () para deixar claro que é uma função, e não uma variável.
 # Dois pontos : serve para indicar o início do bloco de código que pertence à função.
 
-def exibir_tabuleiro():
+#Função para exibir tabuleiro
+#Espera "jogada" como váriavel
+#Caso jogada esteja vazia, fala que o valor é "none" (nulo)
+def exibir_tabuleiro(jogada = None):
     print("┌───┬───┬───┐")
     print(f"│ {tabuleiro[0]} │ {tabuleiro[1]} │ {tabuleiro[2]} │") 
     print("├───┼───┼───┤")
@@ -18,14 +21,33 @@ def exibir_tabuleiro():
     print("├───┼───┼───┤")
     print(f"│ {tabuleiro[6]} │ {tabuleiro[7]} │ {tabuleiro[8]} │")
     print("└───┴───┴───┘")
+
+    #Se tiver uma jogada (ou seja, o jogo está rodando e jogada não é nula) então imprima a jogada.
+    if jogada: 
+        print(f"Jogada: {jogada}")
     #Tudo o que está entre chaves {} é uma expressão que será avaliada e seu resultado será convertido em string e inserido no lugar das chaves.
 
 
+jogador_atual = "X" 
 
-jogador_atual = "X"
+#Tudo o que estiver dentro do while true irá se repetir sem parar.
 
+#Coloca um timer de 0 a 10 antes do jogo começar *idéia
+
+#oMG existe input sozinho wtf
+
+#--------------------------------------------------------------------------------------------------
+# 
+
+input("Bem-vindo ao Jogo da Velha, aperte Enter para começar!")
+
+
+
+#--------------------------------------------------------------------------------------------------
+
+exibir_tabuleiro() 
 while True:
-    exibir_tabuleiro()  # Chama sua função para mostrar o jogo
+
     print(f"Vez do jogador: {jogador_atual}")
     
     # Recebe a jogada do usuário
@@ -33,6 +55,7 @@ while True:
     
     # Diminui 1 da jogada para ajustar ao índice da lista (0-8) Pro jogador não precisar digitar 0.
     tabuleiro[jogada - 1] = jogador_atual
+    exibir_tabuleiro(jogada)  # Chama sua função para mostrar o jogo
 
 
 
