@@ -1,18 +1,6 @@
-
-#Primeiro,  criei ma lista para representar o tabuleiro do jogo.
+# 1. Tabuleiro inicial
 tabuleiro = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 
-
-# Segundo, defini uma função para exibir o tabuleiro do jogo. 
-# Essa função irá imprimir o estado atual do tabuleiro na tela, 
-# mostrando as posições ocupadas pelos jogadores e as posições vazias.
-
-#Quando você chamar a função feche com () para deixar claro que é uma função, e não uma variável.
-# Dois pontos : serve para indicar o início do bloco de código que pertence à função.
-
-#Função para exibir tabuleiro
-#Espera "jogada" como váriavel
-#Caso jogada esteja vazia, fala que o valor é "none" (nulo)
 def exibir_tabuleiro(jogada = None):
     print("┌───┬───┬───┐")
     print(f"│ {tabuleiro[0]} │ {tabuleiro[1]} │ {tabuleiro[2]} │") 
@@ -21,42 +9,70 @@ def exibir_tabuleiro(jogada = None):
     print("├───┼───┼───┤")
     print(f"│ {tabuleiro[6]} │ {tabuleiro[7]} │ {tabuleiro[8]} │")
     print("└───┴───┴───┘")
-
-    #Se tiver uma jogada (ou seja, o jogo está rodando e jogada não é nula) então imprima a jogada.
     if jogada: 
-        print(f"Jogada: {jogada}")
-    #Tudo o que está entre chaves {} é uma expressão que será avaliada e seu resultado será convertido em string e inserido no lugar das chaves.
-
-
-jogador_atual = "X" 
-
-#Tudo o que estiver dentro do while true irá se repetir sem parar.
-
-#Coloca um timer de 0 a 10 antes do jogo começar *idéia
-
-#oMG existe input sozinho wtf
-
-#--------------------------------------------------------------------------------------------------
-# 
+        print(f"Última jogada na posição: {jogada}")
 
 input("Bem-vindo ao Jogo da Velha, aperte Enter para começar!")
 
+jogador_atual = "X"
 
 
-#--------------------------------------------------------------------------------------------------
-
-exibir_tabuleiro() 
 while True:
-
-    print(f"Vez do jogador: {jogador_atual}")
+    exibir_tabuleiro()   
     
-    # Recebe a jogada do usuário
-    jogada = int(input("Escolha uma posição (1-9)"))  
-    
-    # Diminui 1 da jogada para ajustar ao índice da lista (0-8) Pro jogador não precisar digitar 0.
-    tabuleiro[jogada - 1] = jogador_atual
-    exibir_tabuleiro(jogada)  # Chama sua função para mostrar o jogo
+    escolha = int(input(f"Jogador {jogador_atual}, escolha uma posição (1-9): ")) -1
+
+    while escolha < 0 or escolha > 8:
+
+         print ("Posição inválida! Tente novamente.")
+         escolha = int(input(f"Jogador {jogador_atual}, escolha uma posição (1-9): ")) -1
+         
+         
+
+    if tabuleiro[escolha] == " ":
+        tabuleiro[escolha] = jogador_atual
 
 
 
+        # --- VERIFICAÇÃO DE VITÓRIA ---
+        # Definimos todas as sequências que ganham o jogo
+        vitoria = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], # Linhas
 
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], # Colunas
+
+            [0, 4, 8], [2, 4, 6]             # Diagonais
+        ]
+
+
+#---------------------------------------------------
+        
+        venceu = False
+        for v in vitoria:
+            # Se as 3 posições da sequência forem iguais ao jogador atual
+            if tabuleiro[v[0]] == tabuleiro[v[1]] == tabuleiro[v[2]] == jogador_atual:
+                exibir_tabuleiro()
+                print(f"PARABÉNS! O Jogador {jogador_atual} venceu o jogo!")
+                venceu = True
+                break
+        
+        if venceu:
+            break # Encerra o While True
+            
+        # --- VERIFICAÇÃO DE EMPATE ---
+        if " " not in tabuleiro:
+            exibir_tabuleiro()
+            print("DEU VELHA! O jogo empatou.")
+            break
+
+#--------------------------------------------------
+
+
+        # Alterna o jogador
+        if jogador_atual == "X":
+            jogador_atual = "O"
+        else:
+            jogador_atual = "X"
+    else:
+        print("Essa posição já está ocupada! Tente novamente.")
+        input("Aperte Enter para continuar...")
